@@ -143,6 +143,34 @@ namespace Altairis.Fakturoid.Client {
 
             return await base.UpdateSingleEntityAsync(string.Format("subjects/{0}.json", entity.id), entity);
         }
+        
+        /// <summary>Gets list of all subjects matching query.</summary>
+        /// <param name="query">The query used to search subject.</param>
+        /// <returns>
+        /// List of <see cref="T:Altairis.Fakturoid.Client.JsonSubject" /> instances.
+        /// </returns>
+        public IEnumerable<JsonSubject> Search(string query = null)
+        {
+            return this.GetAllPagedEntities<JsonSubject>("subjects/search.json", (object) new
+            {
+                query = query
+            });
+        }
 
+        /// <summary>Gets list of all subjects matching query.</summary>
+        /// <param name="query">The query used to search subject.</param>
+        /// <returns>
+        /// List of <see cref="T:Altairis.Fakturoid.Client.JsonSubject" /> instances.
+        /// </returns>
+        public async Task<IEnumerable<JsonSubject>> SearchAsync(
+            string query = null)
+        {
+            IEnumerable<JsonSubject> pagedEntitiesAsync = await this.GetAllPagedEntitiesAsync<JsonSubject>(
+                "subjects/search.json", (object) new
+                {
+                    query = query
+                });
+            return pagedEntitiesAsync;
+        }
     }
 }
